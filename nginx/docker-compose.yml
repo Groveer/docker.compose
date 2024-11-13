@@ -1,0 +1,12 @@
+services:
+  nginx:
+    image: nginx
+    volumes:
+      - ./data/conf/nginx.conf:/etc/nginx/nginx.conf
+      - ./data/conf/conf.d/default.conf:/etc/nginx/conf.d/default.conf
+      - ./data/html:/usr/share/nginx/html
+      - ./data/logs:/var/log/nginx
+    network_mode: "host"
+    environment:
+      TZ : 'Asia/Shanghai'
+    restart: unless-stopped

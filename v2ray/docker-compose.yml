@@ -1,0 +1,26 @@
+services:
+  v2ray:
+    image: v2ray/official
+    volumes:
+      - ./data/v2ray:/etc/v2ray
+    network_mode: "host"
+    environment:
+      V2RAY_LOCATION_ASSET: '/etc/v2ray'
+    restart: unless-stopped
+  v2raya:
+    image: mzz2017/v2raya
+    volumes:
+      - ./data/v2ray:/etc/v2ray
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+    network_mode: "host"
+    restart: unless-stopped
+  v2raya-gui:
+    image: mzz2017/v2raya-gui
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+    ports:
+      - "8001:80"
+    restart: unless-stopped
+

@@ -1,0 +1,7 @@
+services:
+  distcc:
+    image: ghcr.io/groveer/images/distcc:latest
+    container_name: distccd
+    command: --allow-private --allow 100.0.0.0/8
+    network_mode: "host"
+    restart: unless-stopped

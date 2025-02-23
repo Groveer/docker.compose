@@ -1,0 +1,10 @@
+services:
+  deepseek-free-api:
+    container_name: deepseek-free-api
+    image: vinlic/deepseek-free-api:latest
+    restart: always
+    network_mode: "host"
+    ports:
+      - "8000:8000"
+    environment:
+      - TZ=Asia/Shanghai

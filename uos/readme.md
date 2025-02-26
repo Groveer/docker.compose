@@ -1,0 +1,1 @@
+docker buildx build --platform=linux/amd64 -t deepin/v25:base --build-arg 'UOS_BASE=snipe-amd64.tgz' --build-arg 'UOS_SOURCE="deb [trusted=yes] http://pools.uniontech.com/desktop-professional-V25 snipe main community commercial"' . --load

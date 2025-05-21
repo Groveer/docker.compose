@@ -1,25 +1,34 @@
-FROM --platform=$TARGETPLATFORM scratch
+# FROM --platform=$TARGETPLATFORM scratch
+FROM scratch
 
-ARG TARGETARCH
 ARG UOS_BASE
-ARG UOS_SOURCE
+ARG VERSION
 
 ADD ${UOS_BASE} /
-
-# deb [trusted=yes] http://pools.uniontech.com/desktop-professional eagle/1070 main contrib non-free
-# deb [trusted=yes] http://pools.uniontech.com/desktop-professional-V25 snipe main community commercial
-RUN echo "${UOS_SOURCE}" > /etc/apt/sources.list
 
 RUN apt-get update && apt-get install -y \
     apt-utils \
     apt-transport-https \
     ca-certificates \
-    curl \
     gnupg \
     lsb-release \
+    jq \
+    curl \
     && apt-get dist-upgrade -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-CMD [ "bash" ]
+# RUN curl -s "https://shuttle.uniontech.com/api/shuttle/repo/info?type=deb&reponame=eagle-${VERSION}" | jq -r '.data.repobase.archives[].address' | tee /etc/apt/sources.list
+#
+# RUN echo deb [trusted=yes] https://aptly.uniontech.com/pkg/eagle-1071/release-candidate/56qX566h5b2S5LiA54mI5pys5o-Q5rWLMjAyNS0wNS0xOSAxMDo1MTo1NA/ unstable main >> /etc/apt/sources.list
 
+RUN apt-get update && apt-get install -y \
+    clangd-13 \
+    ninja-build \
+    # qt5-default \
+    # qtwayland5-private-dev \
+    && apt-get dist-upgrade -y \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN update-alternatives --install /usr/bin/clangd clangd /usr/bin/clangd-13 13
